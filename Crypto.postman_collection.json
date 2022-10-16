@@ -1,0 +1,73 @@
+{
+	"info": {
+		"_postman_id": "06c67801-dc0a-458c-91b0-71a87d06e440",
+		"name": "Crypto",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "10355230"
+	},
+	"item": [
+		{
+			"name": "getprice",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Access your env variables like this\r",
+							"var str = pm.environment.get(\"salt\") + pm.environment.get(\"timestamp\");\r",
+							"// Use the CryptoJS\r",
+							"var hash = CryptoJS.MD5(str).toString();\r",
+							"\r",
+							"// Set the new environment variable\r",
+							"pm.environment.set(\"hash\", hash);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "apikey",
+					"apikey": [
+						{
+							"key": "value",
+							"value": "Token:{{hash}}",
+							"type": "string"
+						},
+						{
+							"key": "key",
+							"value": "Authorization",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"symbol\":[\"BTC\",\"ETH\",\"DOGE\"],\r\n    \"target\" : \"BUSD\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/api/v1/crypto/{{timestamp}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"api",
+						"v1",
+						"crypto",
+						"{{timestamp}}"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
